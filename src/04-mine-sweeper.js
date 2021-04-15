@@ -22,40 +22,21 @@
  * ]
  */
 function minesweeper(matrix) {
-  const output = [];
-  for (let i = 0; i < matrix.length; i++) {
-    const line = [];
-    for (let j = 0; j < matrix[i].length; j++) {
-      let a = 0;
-      if (j > 0 && matrix[i][j - 1] === true) {
-        a += 1;
+  const result = Array(matrix.length).fill().map(() => Array(matrix[0].length).fill(0));
+  for (let i = 0; i < matrix.length; ++i){
+    for (let j = 0; j < matrix[i].length; ++j) {
+      if (matrix[i][j]) {
+        for (let z = i - 1; z <= i + 1; ++z) {
+          for (let y = j - 1; y <= j + 1; ++y){
+            if (z >= 0 && y >= 0 && !(z === i && y === j) && z < matrix.length && y < matrix[i].length) {
+              result[z][y]++;
+            }
+          }
+        }
       }
-      if (j < matrix[i].length - 1 && matrix[i][j + 1] === true) {
-        a += 1;
-      }
-      if (i < matrix.length - 1 && j > 0 && matrix[i + 1][j - 1] === true) {
-        a += 1;
-      }
-      if (i < matrix.length - 1 && matrix[i + 1][j] === true) {
-        a += 1;
-      }
-      if (i < matrix.length - 1 && j < matrix[i].length - 1 && matrix[i + 1][j + 1] === true) {
-        a += 1;
-      }
-      if (i > 0 && j > 0 && matrix[i - 1][j - 1] === true) {
-        a += 1;
-      }
-      if (i > 0 && matrix[i - 1][j] === true) {
-        a += 1;
-      }
-      if (i > 0 && j < matrix[i].length - 1 && matrix[i - 1][j + 1] === true) {
-        a += 1;
-      }
-      line.push(a);
     }
-    output.push(line);
   }
-  return output;
+  return result;
 }
 
 module.exports = minesweeper;
